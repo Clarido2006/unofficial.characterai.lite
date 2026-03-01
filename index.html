@@ -3,488 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Character.ai Lite [Classic]</title>
-    <!-- Puter JS SDK -->
-    <script src="https://js.puter.com/v2/"></script>
+    <title>character.ai lite</title>
     <style>
-        /* 2007 WEB 2.0 SYSTEM - NO EMOJIS - NO RADIUS */
-        * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-        body { background: #FFFFFF; color: #000; margin: 0; padding: 0; font-size: 11px; height: 100vh; overflow: hidden; }
-        
-        header { background: #005DAA; padding: 8px 15px; color: #FFF; border-bottom: 3px solid #78B928; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 22px; font-weight: bold; font-style: italic; color: #FFF; text-decoration: none; cursor: pointer; }
-        .logo span { color: #FFA500; }
-        
-        nav { background: #F6F9FC; border-bottom: 1px solid #A5C7E7; padding: 5px 15px; display: flex; gap: 12px; }
-        nav a { color: #004E98; text-decoration: none; font-weight: bold; font-size: 10px; cursor: pointer; text-transform: uppercase; }
-        nav a:hover { text-decoration: underline; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-        .container { display: flex; height: calc(100vh - 85px); }
-        .sidebar { width: 180px; border-right: 1px solid #A5C7E7; background: #F1F6FA; padding: 10px; overflow-y: auto; }
-        .sidebar-head { font-weight: bold; color: #004E98; margin-bottom: 5px; border-bottom: 1px solid #A5C7E7; font-size: 10px; padding-top: 10px; }
+        /* Top Blue Header */
+        .blue-header {
+            background-color: #0033cc;
+            color: white;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #002288;
+        }
 
-        .content { flex: 1; padding: 10px; overflow-y: auto; background: #FFF; position: relative; }
-        .card { border: 1px solid #A5C7E7; background: #FFF; margin-bottom: 10px; }
-        .card-head { background: #E9F1F8; border-bottom: 1px solid #A5C7E7; padding: 4px 8px; color: #004E98; font-weight: bold; }
-        
-        /* AUTH PORTAL */
-        #auth-portal { position: fixed; inset: 0; background: #FFF; z-index: 2000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .auth-box { width: 290px; border: 1px solid #005DAA; padding: 20px; background: #F6F9FC; }
-        .auth-box input { width: 100%; border: 1px solid #A5C7E7; padding: 5px; margin-bottom: 8px; font-size: 11px; }
-        .warn { color: #cc0000; font-size: 9px; font-weight: bold; margin-top: 8px; }
+        .blue-header span {
+            font-weight: normal;
+            opacity: 0.9;
+        }
 
-        /* GRID */
-        .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; }
-        .char-box { border: 1px solid #A5C7E7; padding: 6px; text-align: center; cursor: pointer; background: #F9FBFD; position: relative; min-height: 125px; }
-        .char-box img { width: 45px; height: 45px; border: 1px solid #CCC; object-fit: cover; }
-        .char-box b { display: block; font-size: 10px; color: #004E98; overflow: hidden; white-space: nowrap; margin-top: 4px; }
-        .edit-badge { position: absolute; top: 0; right: 0; background: #FFA500; color: #FFF; font-size: 7px; padding: 1px 3px; border-left: 1px solid #A5C7E7; border-bottom: 1px solid #A5C7E7; z-index: 10; }
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #fdfdfd;
+            border-bottom: 1px solid #a0a0a0;
+            display: flex;
+            padding-left: 10px;
+        }
 
-        /* CHAT UI */
-        #chat-window { height: 340px; overflow-y: auto; padding: 8px; border: 1px solid #A5C7E7; background: #FFF; font-family: serif; font-size: 13px; }
-        .msg { margin-bottom: 10px; display: flex; gap: 6px; line-height: 1.3; }
-        .msg img { width: 32px; height: 32px; border: 1px solid #A5C7E7; flex-shrink: 0; }
-        .msg-text b { display: block; font-size: 9px; color: #005DAA; font-family: sans-serif; text-transform: uppercase; }
+        .nav-item {
+            padding: 6px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            border-left: 1px solid transparent;
+            border-right: 1px solid transparent;
+            cursor: default;
+            text-decoration: none;
+        }
 
-        .btn { border: 1px solid #005DAA; background: #E9F1F8; color: #004E98; padding: 3px 6px; font-weight: bold; cursor: pointer; font-size: 10px; }
-        .btn-send { background: #78B928; border-color: #4D781A; color: #FFF; }
-        .btn-reset { background: #cc0000; border-color: #990000; color: #FFF; }
-        .btn-follow { font-size: 8px; padding: 1px 4px; margin-top: 4px; border: 1px solid #A5C7E7; }
-        .following { background: #A5C7E7; color: #FFF; }
-        
-        #footer-attr { background: #005DAA; color: #FFF; padding: 2px 10px; font-size: 9px; position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-between; z-index: 3000; }
-        .screen { display: none; }
-        .screen.active { display: block; }
+        /* Main Content Area */
+        .content-wrapper {
+            background-color: #d4d0c8; /* Classic Windows Gray */
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+        }
 
-        input[type="file"] { font-size: 9px; }
-        .loading-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(255,255,255,0.8); display:none; align-items:center; justify-content:center; z-index:5000; font-weight:bold; color:#005DAA; }
+        .main-container {
+            background-color: white;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .log-text {
+            font-size: 11px;
+            color: #000;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .maintenance-alert {
+            font-size: 12px;
+            color: #cc0000;
+            font-weight: bold;
+            background: #fffafa;
+            border: 1px dashed #cc0000;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* Active Tab Simulation */
+        .nav-item.active {
+            border-left: 1px solid #a0a0a0;
+            border-right: 1px solid #a0a0a0;
+            background-color: #f0f0f0;
+            position: relative;
+            top: 1px;
+            z-index: 2;
+        }
+
     </style>
 </head>
 <body>
 
-<div id="loading" class="loading-overlay">SYNCHRONIZING WITH CLOUD...</div>
-
-<div id="auth-portal">
-    <div class="logo" style="color:#005DAA; margin-bottom: 15px;">c<span>.ai</span> Classic</div>
-    <div class="auth-box">
-        <b id="auth-title">LOGIN TO SESSION</b>
-        <input type="text" id="auth-user" placeholder="Username" autocomplete="off">
-        <input type="password" id="auth-pass" placeholder="Password" autocomplete="off">
-        <button class="btn btn-send" style="width:100%" onclick="doAuth()">CONTINUE</button>
-        <div id="auth-toggle" style="font-size: 9px; margin-top: 10px; cursor:pointer; text-decoration: underline;" onclick="toggleAuth()">No account? Create one</div>
-        <div class="warn" id="auth-msg"></div>
-    </div>
-</div>
-
-<header id="h-ui" style="display:none">
-    <div class="logo" onclick="goHome()">c<span>.ai</span></div>
-    <div style="font-size: 9px; font-weight: bold;">USER: <span id="session-user"></span></div>
-</header>
-
-<nav id="n-ui" style="display:none">
-    <a onclick="goHome()">Home</a>
-    <a onclick="showScr('chat')">Messenger</a>
-    <a onclick="openCreate()">Create</a>
-    <a onclick="showScr('persona')">Profile</a>
-    <a onclick="logout()" style="color:#cc0000">Logout</a>
-</nav>
-
-<div class="container" id="c-ui" style="display:none">
-    <div class="sidebar">
-        <div class="sidebar-head">FOLLOWING</div>
-        <div id="side-following" style="font-size: 10px; color: #005DAA;"></div>
-        
-        <div class="sidebar-head">RECENT</div>
-        <div id="side-recents"></div>
+    <!-- Blue Header -->
+    <div class="blue-header">
+        character.ai <span>lite [Ollama Unfiltered]</span>
     </div>
 
-    <div class="content">
-        <div id="scr-home" class="screen active">
-            <div class="card">
-                <div class="card-head">Search Characters</div>
-                <div style="padding:8px; display:flex; gap:5px;">
-                    <input type="text" id="find-q" style="flex:1; border:1px solid #A5C7E7;" placeholder="Find someone..." oninput="doSearch()">
-                </div>
-            </div>
-            <div class="sidebar-head">PUBLIC CHARACTERS (CLOUD)</div>
-            <div id="grid-public" class="char-grid"></div>
-            <div class="sidebar-head" style="margin-top:20px">MY CREATIONS</div>
-            <div id="grid-mine" class="char-grid"></div>
-            <div class="sidebar-head" style="margin-top:20px">RECENT CHATS</div>
-            <div id="grid-recent" class="char-grid"></div>
-        </div>
-
-        <div id="scr-chat" class="screen">
-            <div class="card">
-                <div class="card-head" id="chat-title">Messenger</div>
-                <div id="chat-window"></div>
-                <div style="padding:10px; background:#F6F9FC; border-top:1px solid #A5C7E7; display:flex; flex-direction:column; gap:5px;">
-                    <textarea id="chat-input" style="width:100%; height:50px; border:1px solid #A5C7E7; resize:none;"></textarea>
-                    <div style="display:flex; justify-content: space-between;">
-                        <button class="btn btn-send" id="btn-send-msg" onclick="sendMsg()">SEND MESSAGE</button>
-                        <button class="btn btn-reset" onclick="clearHistory()">RESET MEMORY</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="scr-create" class="screen">
-            <div class="card">
-                <div class="card-head" id="studio-head">Character Studio</div>
-                <div style="padding:10px">
-                    <input type="hidden" id="edit-id">
-                    <b>Name:</b> <input type="text" id="bot-n">
-                    <b>Greeting:</b> <input type="text" id="bot-g">
-                    <b>Definition:</b> <textarea id="bot-d" style="width:100%; height:60px; border:1px solid #A5C7E7;"></textarea>
-                    <b>Visibility:</b> 
-                    <select id="bot-v" style="width:100%; margin:5px 0;">
-                        <option value="public">Public (Shared on Cloud)</option>
-                        <option value="private">Private (Local Device Only)</option>
-                    </select>
-                    <b>PFP:</b> <input type="file" id="bot-pfp" accept="image/*"><br><br>
-                    <button class="btn btn-send" id="bot-btn" onclick="saveBot()">SAVE TO CLOUD/LOCAL</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="scr-persona" class="screen">
-            <div class="card">
-                <div class="card-head">Social & Profile</div>
-                <div style="padding:10px; display: flex; gap: 15px;">
-                    <div style="flex: 1;">
-                        <div class="sidebar-head">MY PERSONAS</div>
-                        <div id="per-list" style="margin-bottom:10px; border:1px solid #CCC; max-height:100px; overflow-y:auto; background:#FFF;"></div>
-                        <b>Name:</b> <input type="text" id="per-n">
-                        <b>Bio:</b> <textarea id="per-b" style="width:100%; height:50px; border:1px solid #A5C7E7;"></textarea>
-                        <button class="btn btn-send" style="margin-top:5px" onclick="savePer()">ADD PERSONA</button>
-                    </div>
-                    <div style="flex: 1; border-left: 1px solid #A5C7E7; padding-left: 15px;">
-                        <div class="sidebar-head">FOLLOWING LIST</div>
-                        <div id="full-following-list" style="font-size: 10px; margin-bottom: 15px;"></div>
-                        <div class="sidebar-head">YOUR FOLLOWERS</div>
-                        <div id="followers-list" style="font-size: 10px; color: #666;">No followers yet.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Tabbed Navigation (Only Log remains) -->
+    <div class="nav-bar">
+        <div class="nav-item active">Log</div>
     </div>
-</div>
 
-<div id="footer-attr">
-    <div>Puter Cloud Sync & Follow System</div>
-    <div>STATUS: <span id="sys-status">OFFLINE</span></div>
-</div>
-
-<script>
-    if(window.puter) puter.ui.enabled = false;
-
-    let user = null;
-    let authMode = 'login';
-    let targetBot = null;
-    let isThinking = false;
-
-    const KEY_USERS = 'cai_classic_users';
-    const KEY_CHARACTERS = 'cai_classic_chars';
-    const KEY_PERSONAS = 'cai_classic_pers';
-    const KEY_HISTORY = 'cai_classic_hist';
-    const KEY_FOLLOWS = 'cai_classic_foll';
-
-    const DB = {
-        u: JSON.parse(localStorage.getItem(KEY_USERS) || '{}'),
-        c: JSON.parse(localStorage.getItem(KEY_CHARACTERS) || '[]'),
-        p: JSON.parse(localStorage.getItem(KEY_PERSONAS) || '[]'),
-        h: JSON.parse(localStorage.getItem(KEY_HISTORY) || '{}'),
-        f: JSON.parse(localStorage.getItem(KEY_FOLLOWS) || '{}')
-    };
-
-    function saveLocal() {
-        localStorage.setItem(KEY_USERS, JSON.stringify(DB.u));
-        localStorage.setItem(KEY_CHARACTERS, JSON.stringify(DB.c));
-        localStorage.setItem(KEY_PERSONAS, JSON.stringify(DB.p));
-        localStorage.setItem(KEY_HISTORY, JSON.stringify(DB.h));
-        localStorage.setItem(KEY_FOLLOWS, JSON.stringify(DB.f));
-    }
-
-    async function syncCloud() {
-        if(!window.puter) return;
-        document.getElementById('loading').style.display = 'flex';
-        try {
-            const cloudChars = await puter.kv.get('public_chars') || [];
-            cloudChars.forEach(cc => {
-                const idx = DB.c.findIndex(lc => lc.id === cc.id);
-                if(idx > -1) DB.c[idx] = cc;
-                else DB.c.push(cc);
-            });
-            const ourPublic = DB.c.filter(c => c.vis === 'public');
-            const updatedCloud = [...cloudChars];
-            ourPublic.forEach(op => {
-                const cidx = updatedCloud.findIndex(uc => uc.id === op.id);
-                if(cidx === -1) updatedCloud.push(op);
-                else if(updatedCloud[cidx].creator === user) updatedCloud[cidx] = op;
-            });
-            await puter.kv.set('public_chars', updatedCloud);
-
-            const globalFollows = await puter.kv.get('global_follows') || {};
-            if (user) globalFollows[user] = DB.f[user] || [];
-            Object.assign(DB.f, globalFollows);
-            await puter.kv.set('global_follows', globalFollows);
-
-            saveLocal();
-        } catch(e) { console.error("Sync failed", e); }
-        document.getElementById('loading').style.display = 'none';
-        renderHome();
-        renderFollows();
-    }
-
-    function toggleAuth() {
-        authMode = (authMode === 'login' ? 'signup' : 'login');
-        document.getElementById('auth-title').innerText = authMode === 'login' ? 'LOGIN TO SESSION' : 'CREATE ACCOUNT';
-        document.getElementById('auth-toggle').innerText = authMode === 'login' ? 'No account? Create one' : 'Login instead';
-    }
-
-    function doAuth() {
-        const u = document.getElementById('auth-user').value.trim();
-        const p = document.getElementById('auth-pass').value.trim();
-        const msg = document.getElementById('auth-msg');
-        if(u.length < 3 || p.length < 4) { msg.innerText = "Check credentials length."; return; }
-        if(authMode === 'signup') {
-            if(DB.u[u]) return msg.innerText = "User exists.";
-            DB.u[u] = p; DB.f[u] = []; saveLocal();
-            alert("Signed up. Please login."); toggleAuth(); return;
-        }
-        if(!DB.u[u] || DB.u[u] !== p) return msg.innerText = "Invalid login.";
-        user = u;
-        document.getElementById('auth-portal').style.display = 'none';
-        ['h-ui','n-ui','c-ui'].forEach(id => document.getElementById(id).style.display = 'flex');
-        document.getElementById('session-user').innerText = user;
-        syncCloud();
-    }
-
-    function logout() { user = null; location.reload(); }
-
-    function showScr(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('scr-' + id).classList.add('active');
-        if(id === 'home') renderHome();
-        if(id === 'persona') { renderPers(); renderFollows(); }
-    }
-
-    function goHome() { showScr('home'); }
-
-    async function toggleFollow(targetCreator, event) {
-        if(event) event.stopPropagation();
-        if(!user || targetCreator === user) return;
-        if(!DB.f[user]) DB.f[user] = [];
-        const idx = DB.f[user].indexOf(targetCreator);
-        if(idx > -1) DB.f[user].splice(idx, 1);
-        else DB.f[user].push(targetCreator);
-        saveLocal(); await syncCloud();
-    }
-
-    function renderFollows() {
-        const side = document.getElementById('side-following');
-        const full = document.getElementById('full-following-list');
-        const followers = document.getElementById('followers-list');
-        if(!user) return;
-        const following = DB.f[user] || [];
-        side.innerHTML = following.length ? following.map(f => `<div style="padding:2px 0;">• ${f}</div>`).join('') : 'None';
-        full.innerHTML = following.length ? following.map(f => `
-            <div style="padding:5px; border-bottom:1px dotted #ccc; display:flex; justify-content:space-between; align-items:center;">
-                <b>${f}</b>
-                <button class="btn" style="font-size:8px" onclick="toggleFollow('${f}')">UNFOLLOW</button>
-            </div>
-        `).join('') : 'Not following anyone.';
-        const followerNames = [];
-        for(let u in DB.f) if(DB.f[u].includes(user)) followerNames.push(u);
-        followers.innerHTML = followerNames.length ? followerNames.map(fn => `<div>${fn}</div>`).join('') : 'No followers yet.';
-    }
-
-    async function toB64(file) {
-        return new Promise(r => { const rd = new FileReader(); rd.onload = () => r(rd.result); rd.readAsDataURL(file); });
-    }
-
-    function openCreate() {
-        document.getElementById('studio-head').innerText = "Character Studio";
-        document.getElementById('edit-id').value = "";
-        document.getElementById('bot-n').value = "";
-        document.getElementById('bot-g').value = "";
-        document.getElementById('bot-d').value = "";
-        showScr('create');
-    }
-
-    async function saveBot() {
-        const id = document.getElementById('edit-id').value;
-        const n = document.getElementById('bot-n').value.trim();
-        const g = document.getElementById('bot-g').value.trim();
-        const d = document.getElementById('bot-d').value.trim();
-        const v = document.getElementById('bot-v').value;
-        const f = document.getElementById('bot-pfp').files[0];
-        if(!n) return;
-        let pfp = f ? await toB64(f) : (id ? DB.c.find(x => x.id == id).pfp : "https://api.dicebear.com/7.x/identicon/svg?seed="+n);
-        if(id) {
-            let idx = DB.c.findIndex(x => x.id == id);
-            if(DB.c[idx].creator !== user) return alert("Unauthorized");
-            DB.c[idx] = {...DB.c[idx], name: n, greet: g, desc: d, vis: v, pfp};
-        } else {
-            DB.c.push({ id: Date.now(), creator: user, name: n, greet: g, desc: d, vis: v, pfp });
-        }
-        saveLocal(); await syncCloud(); goHome();
-    }
-
-    function editBot(id, e) {
-        e.stopPropagation();
-        const b = DB.c.find(x => x.id == id);
-        if(!b || b.creator !== user) return;
-        document.getElementById('edit-id').value = b.id;
-        document.getElementById('bot-n').value = b.name;
-        document.getElementById('bot-g').value = b.greet;
-        document.getElementById('bot-d').value = b.desc;
-        document.getElementById('bot-v').value = b.vis;
-        showScr('create');
-    }
-
-    function renderHome() {
-        const pub = document.getElementById('grid-public');
-        const mine = document.getElementById('grid-mine');
-        const rec = document.getElementById('grid-recent');
-        const sideRec = document.getElementById('side-recents');
-        pub.innerHTML = ''; mine.innerHTML = ''; rec.innerHTML = ''; sideRec.innerHTML = '';
-        DB.c.forEach(b => {
-            const isMine = b.creator === user;
-            const isFollowing = DB.f[user] && DB.f[user].includes(b.creator);
-            const html = `
-            <div class="char-box" onclick="initChat(${b.id})">
-                ${isMine ? `<div class="edit-badge" onclick="editBot(${b.id}, event)">EDIT</div>` : ''}
-                <img src="${b.pfp}">
-                <b>${b.name}</b>
-                <div style="font-size:7px; color:#666">by ${b.creator}</div>
-                ${(!isMine && user) ? `<button class="btn btn-follow ${isFollowing ? 'following' : ''}" onclick="toggleFollow('${b.creator}', event)">${isFollowing ? 'FOLLOW' : 'FOLLOWING'}</button>` : ''}
-            </div>`;
-            if(b.vis === 'public') pub.innerHTML += html;
-            if(isMine) mine.innerHTML += html;
-        });
-        const history = DB.h[user] || {};
-        Object.keys(history).reverse().forEach(bid => {
-            const b = DB.c.find(x => x.id == bid);
-            if(b) {
-                rec.innerHTML += `<div class="char-box" onclick="initChat(${b.id})"><img src="${b.pfp}"><b>${b.name}</b></div>`;
-                sideRec.innerHTML += `<div style="padding:4px; border-bottom:1px dotted #ccc; cursor:pointer" onclick="initChat(${b.id})">${b.name}</div>`;
-            }
-        });
-    }
-
-    function initChat(id) {
-        targetBot = DB.c.find(x => x.id == id);
-        if(!targetBot) return;
-        showScr('chat');
-        document.getElementById('chat-title').innerText = targetBot.name;
-        if(!DB.h[user]) DB.h[user] = {};
-        if(!DB.h[user][id]) { DB.h[user][id] = [{ r: 'ai', t: targetBot.greet }]; saveLocal(); }
-        drawMsgs();
-    }
-
-    function drawMsgs() {
-        const win = document.getElementById('chat-window');
-        win.innerHTML = '';
-        const history = DB.h[user][targetBot.id];
-        const activePer = DB.p.find(p => p.owner === user && p.active);
-        history.forEach(m => {
-            const n = m.r === 'ai' ? targetBot.name : (activePer ? activePer.name : user);
-            const p = m.r === 'ai' ? targetBot.pfp : "https://api.dicebear.com/7.x/identicon/svg?seed="+user;
-            win.innerHTML += `<div class="msg"><img src="${p}"><div class="msg-text"><b>${n}</b>${m.t}</div></div>`;
-        });
-        win.scrollTop = win.scrollHeight;
-    }
-
-    async function callPuterWithRetry(prompt, retries = 5) {
-        let delay = 1000;
-        for (let i = 0; i < retries; i++) {
-            try { return await puter.ai.chat(prompt); } 
-            catch (err) {
-                if (i === retries - 1) throw err;
-                await new Promise(r => setTimeout(r, delay));
-                delay *= 2;
-            }
-        }
-    }
-
-    async function sendMsg() {
-        const input = document.getElementById('chat-input');
-        const text = input.value.trim();
-        if(!text || isThinking) return;
-
-        const history = DB.h[user][targetBot.id];
-        history.push({ r: 'u', t: text });
-        drawMsgs();
-        input.value = '';
-        isThinking = true;
-        document.getElementById('sys-status').innerText = 'THINKING...';
-
-        try {
-            const activePer = DB.p.find(p => p.owner === user && p.active);
+    <!-- Content Area -->
+    <div class="content-wrapper">
+        <div class="main-container">
+            <h2>System Log</h2>
             
-            // MEMORY ENGINE: Summarize history for the prompt
-            const contextLimit = 10; // Remember last 10 messages
-            const recentHistory = history.slice(-contextLimit);
-            const historyString = recentHistory.map(m => (m.r === 'ai' ? targetBot.name : 'User') + ": " + m.t).join('\n');
+            <div class="log-text">
+                v4.7: Persistence fixed. Switching characters no longer clears the message list. History is preserved in memory until 'Reset Chat' is clicked.
+            </div>
 
-            const sys = `Character: ${targetBot.name}. Description: ${targetBot.desc}. 
-            User persona: ${activePer ? activePer.bio : 'None'}.
-            Current History:\n${historyString}\n
-            Instruction: Continue the conversation as ${targetBot.name}. Be immersive.`;
+            <div class="maintenance-alert">
+                SYSTEM STATUS: Character.ai Lite [UNOFFICIAL] is Under construction or temporarily closed.<br><br>
+                Reason: AI "I can't do that" responses are causing "connection errors".<br>
+                Action: We apologize; we need to change the model to unfiltered immediately.
+            </div>
+        </div>
+    </div>
 
-            const res = await callPuterWithRetry(sys);
-            history.push({ r: 'ai', t: res.toString() });
-            saveLocal();
-            drawMsgs();
-        } catch(e) { 
-            console.error(e);
-            history.push({ r: 'ai', t: "[SYSTEM: Connection failed. Please try again.]" });
-            drawMsgs();
-        } finally { 
-            isThinking = false; 
-            document.getElementById('sys-status').innerText = 'READY'; 
-        }
-    }
-
-    function clearHistory() {
-        if(!confirm("Reset memory for " + targetBot.name + "? This cannot be undone.")) return;
-        DB.h[user][targetBot.id] = [{ r: 'ai', t: targetBot.greet }];
-        saveLocal();
-        drawMsgs();
-    }
-
-    function renderPers() {
-        const list = document.getElementById('per-list');
-        list.innerHTML = '';
-        DB.p.filter(p => p.owner === user).forEach(p => {
-            list.innerHTML += `<div style="padding:4px; border-bottom:1px solid #ccc; background:${p.active?'#E9F1F8':'#FFF'}; display:flex; justify-content:space-between;">
-                <b>${p.name}</b> <button class="btn" style="font-size:8px" onclick="setPerActive(${p.id})">USE</button>
-            </div>`;
-        });
-    }
-
-    function savePer() {
-        const n = document.getElementById('per-n').value.trim();
-        const b = document.getElementById('per-b').value.trim();
-        if(!n) return;
-        DB.p.push({ id: Date.now(), owner: user, name: n, bio: b, active: false });
-        saveLocal(); renderPers();
-    }
-
-    function setPerActive(id) {
-        DB.p.forEach(p => { if(p.owner === user) p.active = (p.id == id); });
-        saveLocal(); renderPers();
-    }
-
-    function doSearch() {
-        const q = document.getElementById('find-q').value.toLowerCase();
-        document.querySelectorAll('#grid-public .char-box').forEach(box => {
-            box.style.display = box.innerText.toLowerCase().includes(q) ? 'block' : 'none';
-        });
-    }
-
-    window.onload = () => { if(window.puter) document.getElementById('sys-status').innerText = 'READY'; };
-</script>
 </body>
 </html>
