@@ -1,6 +1,6 @@
 // config.js — SUPER ULTRA-LITE
 // Set your Render.com server URL here.
-var RENDER_SERVER_URL = "https://YOUR-APP-NAME.onrender.com";
+var RENDER_SERVER_URL = "https://aichathangout.onrender.com";
 if (
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1" ||
