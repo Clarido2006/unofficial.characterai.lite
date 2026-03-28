@@ -1,0 +1,367 @@
+/* ============================================================
+   responsive.css — Character.ai Lite [UNOFFICIAL]
+   Device-specific layout overrides.
+   All XP visual styling is KEPT — only layout changes.
+   ============================================================ */
+
+/* ============================================================
+   GLOBAL TOUCH IMPROVEMENTS (all devices)
+   ============================================================ */
+.classic-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,85,224,0.18);
+}
+.gc-subtab {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,85,224,0.18);
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+}
+.gc-subtab.active {
+    background: linear-gradient(to bottom,#FFFFFF,#F0EDE0) !important;
+    color: #003399 !important;
+    border-bottom: 3px solid #0055E0 !important;
+    border-top: 1px solid #FFF;
+}
+.gc-subtab:active {
+    background: linear-gradient(to bottom,#CCE0F0,#DDEEFF) !important;
+}
+.nav-link {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,85,224,0.18);
+}
+
+/* ============================================================
+   PC-ONLY elements — hidden on all non-desktop devices
+   ============================================================ */
+html[data-device="tablet"] .pc-only,
+html[data-device="phone"]  .pc-only,
+html[data-device="feature"].pc-only {
+    display: none !important;
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+html[data-device="tablet"] body { font-size: 13px; }
+html[data-device="tablet"] #app-content { min-height: 0; margin: 4px; }
+html[data-device="tablet"] .view { min-height: 0; }
+html[data-device="tablet"] #site-header { min-height: 44px; padding: 6px 14px; }
+html[data-device="tablet"] .logo-text { font-size: 16px; }
+html[data-device="tablet"] #global-search-input { width: 200px; font-size: 13px; padding: 5px 9px; }
+html[data-device="tablet"] .nav-link { padding: 10px 13px; font-size: 12px; }
+html[data-device="tablet"] .classic-btn { padding: 8px 14px; font-size: 13px; min-height: 36px; }
+html[data-device="tablet"] .classic-btn:active {
+    background: linear-gradient(to bottom,#B8D8F0,#D4E8FF) !important;
+    border-top-color: #ACA899 !important; border-left-color: #ACA899 !important;
+}
+html[data-device="tablet"] #contact-list { width: 180px; min-width: 180px; }
+html[data-device="tablet"] .contact-row { padding: 11px 10px; }
+html[data-device="tablet"] .contact-name { font-size: 13px; }
+html[data-device="tablet"] #chat-input { font-size: 13px; }
+html[data-device="tablet"] #msg-input-area { height: 90px; }
+html[data-device="tablet"] .field input,
+html[data-device="tablet"] .field textarea,
+html[data-device="tablet"] .field select { font-size: 13px; padding: 7px 8px; }
+html[data-device="tablet"] .char-card { width: 100% !important; max-width: 340px; }
+html[data-device="tablet"] .char-grid { -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 8px; }
+html[data-device="tablet"] .login-window { width: 90%; max-width: 460px; }
+html[data-device="tablet"] .win-box { width: 90%; max-width: 460px; }
+html[data-device="tablet"] .section-title { font-size: 13px; padding: 6px 12px; }
+html[data-device="tablet"] .pub-char-card { padding: 14px; }
+html[data-device="tablet"] #browse { padding: 14px; }
+html[data-device="tablet"] .persona-card { padding: 12px; }
+html[data-device="tablet"] #status-bar { font-size: 12px; padding: 4px 12px; }
+html[data-device="tablet"] #settings, html[data-device="tablet"] #persona-mgr,
+html[data-device="tablet"] #create-char, html[data-device="tablet"] #admin { padding: 14px; }
+
+/* Tablet GC — slightly narrower sidebar */
+html[data-device="tablet"] #group-chat .gc-panel[data-panel="bots"] > div:first-child,
+html[data-device="tablet"] #group-chat .gc-panel[data-panel="mixed"] > div:first-child {
+    width: 170px !important; min-width: 170px !important;
+}
+html[data-device="tablet"] .gc-subtab { padding: 9px 12px !important; font-size: 12px !important; }
+html[data-device="tablet"] .msg-subtab { padding: 9px 12px !important; font-size: 12px !important; }
+
+html[data-device="tablet"] ::-webkit-scrollbar { width: 18px; }
+html[data-device="tablet"] ::-webkit-scrollbar-button { height: 18px; }
+
+/* ============================================================
+   PHONE
+   ============================================================ */
+html[data-device="phone"] body { font-size: 14px; overflow: hidden; }
+html[data-device="phone"] #site-header { min-height: 46px; padding: 7px 12px; gap: 6px; }
+html[data-device="phone"] .logo-text { font-size: 14px; }
+html[data-device="phone"] .logo-sub { display: none; }
+html[data-device="phone"] #global-search-wrap { display: none; }
+html[data-device="phone"] #user-info-bar { font-size: 12px; gap: 4px; }
+html[data-device="phone"] #user-info-bar button { font-size: 11px; padding: 4px 8px; }
+html[data-device="phone"] #site-nav { display: none; }
+html[data-device="phone"] #phone-nav { display: -webkit-flex !important; display: flex !important; }
+html[data-device="phone"] #app-content {
+    margin: 0; border: none; outline: none; box-shadow: none;
+    min-height: 0; padding-bottom: 52px;
+}
+html[data-device="phone"] .view { min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+html[data-device="phone"] #status-bar { display: none; }
+
+/* Buttons */
+html[data-device="phone"] .classic-btn { padding: 10px 16px; font-size: 14px; min-height: 40px; }
+html[data-device="phone"] .classic-btn:active {
+    background: linear-gradient(to bottom,#B8D8F0,#D4E8FF) !important;
+    border-top-color: #ACA899 !important; border-left-color: #ACA899 !important;
+}
+
+/* Home */
+html[data-device="phone"] #home { padding: 10px; }
+html[data-device="phone"] .char-grid { display: block; }
+html[data-device="phone"] .char-card { width: 100% !important; margin-bottom: 8px; }
+html[data-device="phone"] .welcome-banner { padding: 10px; }
+html[data-device="phone"] .welcome-banner h2 { font-size: 15px; }
+html[data-device="phone"] .info-bar { font-size: 12px; }
+html[data-device="phone"] .section-title { font-size: 13px; padding: 6px 10px; margin: 8px 0 5px 0; }
+
+/* Messenger — two-step */
+html[data-device="phone"] #messenger-box { -webkit-flex-direction: column; flex-direction: column; position: relative; }
+html[data-device="phone"] #contact-list { width: 100%; min-width: 100%; border-right: none; border-bottom: 1px solid var(--xp-border); max-height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+html[data-device="phone"] #chat-main { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #FFF; -webkit-flex-direction: column; flex-direction: column; }
+html[data-device="phone"] #chat-main.phone-chat-open { display: -webkit-flex; display: flex; }
+html[data-device="phone"] #contact-list.phone-list-hidden { display: none; }
+html[data-device="phone"] .contact-row { padding: 13px 12px; border-bottom: 1px solid #B5C7DE; }
+html[data-device="phone"] .contact-name { font-size: 14px; }
+html[data-device="phone"] #chat-header { min-height: 56px; padding: 8px 10px; gap: 8px; }
+html[data-device="phone"] #chat-header .char-title { font-size: 14px; }
+html[data-device="phone"] #chat-history { -webkit-overflow-scrolling: touch; }
+html[data-device="phone"] #msg-input-area { height: 80px; padding: 6px 8px; }
+html[data-device="phone"] #chat-input { font-size: 14px; }
+html[data-device="phone"] .msg-bubble { font-size: 13px; line-height: 1.6; }
+html[data-device="phone"] .input-btns { min-width: 60px; }
+
+/* User Chat — stack sidebar on top */
+html[data-device="phone"] #user-chat { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="phone"] #user-chat > div { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="phone"] #uc-sidebar { width: 100% !important; min-width: 100% !important; max-height: 40%; border-right: none; border-bottom: 1px solid var(--xp-border); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+/* Group Chat — stack panels vertically */
+html[data-device="phone"] .gc-subtab { padding: 8px 11px !important; font-size: 12px !important; }
+html[data-device="phone"] .msg-subtab { padding: 8px 11px !important; font-size: 12px !important; }
+html[data-device="phone"] #group-chat .gc-panel[data-panel="bots"],
+html[data-device="phone"] #group-chat .gc-panel[data-panel="mixed"] { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="phone"] #group-chat .gc-panel[data-panel="bots"] > div:first-child,
+html[data-device="phone"] #group-chat .gc-panel[data-panel="mixed"] > div:first-child {
+    width: 100% !important; min-width: 100% !important; max-height: 190px;
+    border-right: none !important; border-bottom: 1px solid var(--xp-border);
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    -webkit-flex-direction: row; flex-direction: row;
+    -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 4px; padding: 6px !important;
+}
+
+/* Browse */
+html[data-device="phone"] #browse { padding: 10px; }
+html[data-device="phone"] .browse-toolbar { -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 6px; }
+html[data-device="phone"] .pub-char-card { -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; align-items: flex-start; padding: 12px; }
+html[data-device="phone"] .pub-char-actions { -webkit-flex-direction: row; flex-direction: row; -webkit-flex-wrap: wrap; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+/* Forms */
+html[data-device="phone"] .field input, html[data-device="phone"] .field textarea, html[data-device="phone"] .field select { font-size: 14px; padding: 8px 10px; }
+html[data-device="phone"] .field label { font-size: 13px; }
+
+/* Settings / Persona / Create-AI / Admin */
+html[data-device="phone"] #settings, html[data-device="phone"] #persona-mgr,
+html[data-device="phone"] #create-char, html[data-device="phone"] #admin { padding: 10px; }
+
+/* Login */
+html[data-device="phone"] #login-screen { -webkit-align-items: flex-start; align-items: flex-start; padding-top: 30px; }
+html[data-device="phone"] .login-window { width: 95%; max-width: 400px; }
+html[data-device="phone"] .login-body { padding: 14px; }
+html[data-device="phone"] .win-box { width: 95%; max-width: 400px; }
+
+/* Profile */
+html[data-device="phone"] .profile-header { -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: center; align-items: center; text-align: center; }
+html[data-device="phone"] .profile-stats { -webkit-justify-content: center; justify-content: center; }
+html[data-device="phone"] .persona-card { -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+
+/* Scrollbar — thin */
+html[data-device="phone"] ::-webkit-scrollbar { width: 4px; }
+html[data-device="phone"] ::-webkit-scrollbar-button { display: none; height: 0; }
+html[data-device="phone"] ::-webkit-scrollbar-thumb { border-radius: 2px; }
+
+/* ============================================================
+   BOTTOM PHONE NAV BAR
+   ============================================================ */
+#phone-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 52px;
+    background: linear-gradient(to bottom, #F8F8F0, #E4DEC8);
+    border-top: 2px solid var(--xp-border);
+    z-index: 200;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+    -webkit-flex-shrink: 0; flex-shrink: 0;
+}
+.pnav-btn {
+    -webkit-flex: 1; flex: 1;
+    display: -webkit-flex; display: flex;
+    -webkit-align-items: center; align-items: center;
+    -webkit-justify-content: center; justify-content: center;
+    -webkit-flex-direction: column; flex-direction: column;
+    cursor: pointer; font-size: 11px; font-weight: bold;
+    color: #333; border-right: 1px solid #CCC; text-align: center;
+    padding: 2px 0; gap: 2px;
+    -webkit-user-select: none; user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,85,224,0.2);
+}
+.pnav-btn:last-child { border-right: none; }
+.pnav-btn:active     { background: linear-gradient(to bottom,#CCE0F0,#DDEEFF) !important; }
+.pnav-btn.active     { background: linear-gradient(to bottom,#EEF2FF,#ECE9D8); color:#003399; border-bottom: 2px solid #0055E0; }
+.pnav-icon { font-size: 16px; line-height: 1; font-family: monospace; color: inherit; }
+
+/* Phone back button */
+#phone-back-btn {
+    display: none;
+    background: linear-gradient(to bottom,#F5F4EE,#D9D4C0);
+    border-top: 1px solid #FFF; border-left: 1px solid #FFF;
+    border-right: 1px solid var(--xp-blight); border-bottom: 1px solid var(--xp-blight);
+    outline: 1px solid var(--xp-border);
+    padding: 6px 10px; cursor: pointer; font-size: 13px; font-weight: bold;
+    font-family: Tahoma, Arial, sans-serif; color: #000; white-space: nowrap;
+    -webkit-flex-shrink: 0; flex-shrink: 0; touch-action: manipulation;
+}
+html[data-device="phone"] #phone-back-btn { display: block; }
+html[data-device="phone"] #phone-back-btn:active { background: linear-gradient(to bottom,#CCE0F0,#DDEEFF) !important; }
+
+/* ============================================================
+   FEATURE PHONE — ultra-minimal, monospace, max contrast
+   ============================================================ */
+html[data-device="feature"] * {
+    font-family: "Courier New", Courier, monospace !important;
+    font-size: 14px !important; line-height: 1.4 !important;
+    border-radius: 0 !important; box-shadow: none !important;
+}
+/* Feature body: maintain 100vh flex chain */
+html[data-device="feature"] body { background: #FFF; color: #000; height: 100vh; overflow: hidden; }
+html[data-device="feature"] #app-content { margin: 0; border: none; outline: none; background: #FFF; min-height: 0; overflow: hidden; }
+html[data-device="feature"] .view { overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
+
+/* Header */
+html[data-device="feature"] #site-header { background: #000 !important; color: #FFF; padding: 5px 8px; min-height: auto; border-bottom: 3px solid #000; }
+html[data-device="feature"] .logo-text { font-size: 12px !important; color: #FFF; text-shadow: none; }
+html[data-device="feature"] .logo-sub { display: none; }
+html[data-device="feature"] #global-search-wrap { display: none; }
+html[data-device="feature"] #user-info-bar button { background: #333; color: #FFF; border: 1px solid #FFF; padding: 3px 6px; }
+
+/* Nav */
+html[data-device="feature"] #site-nav { background: #222 !important; border-bottom: 3px solid #000; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+html[data-device="feature"] .nav-link { color: #FFF !important; border-right: 1px solid #555; padding: 7px 8px; font-size: 12px !important; font-weight: bold; }
+html[data-device="feature"] .nav-link.active { background: #FFF !important; color: #000 !important; border-bottom: 3px solid #000; }
+html[data-device="feature"] .nav-link:active { background: #555 !important; color: #FFF !important; }
+
+/* Buttons */
+html[data-device="feature"] .classic-btn {
+    display: block; width: 100%; background: #DDD !important;
+    border: 2px solid #000 !important; outline: none !important;
+    color: #000 !important; padding: 9px 8px !important;
+    font-weight: bold; text-align: center; margin-bottom: 5px;
+    cursor: pointer; touch-action: manipulation;
+}
+html[data-device="feature"] .classic-btn.primary { background: #000 !important; color: #FFF !important; }
+html[data-device="feature"] .classic-btn.success  { background: #555 !important; color: #FFF !important; }
+html[data-device="feature"] .classic-btn.danger   { text-decoration: underline; }
+html[data-device="feature"] .classic-btn:active   { background: #000 !important; color: #FFF !important; }
+
+/* Forms */
+html[data-device="feature"] .field input, html[data-device="feature"] .field textarea, html[data-device="feature"] .field select { border: 2px solid #000 !important; outline: none !important; padding: 7px !important; background: #FFF; width: 100%; }
+html[data-device="feature"] .field label { font-weight: bold; display: block; margin-bottom: 4px; }
+
+/* PFP */
+html[data-device="feature"] .pfp-box, html[data-device="feature"] .user-avatar { background: #CCC !important; background-image: none !important; color: #000 !important; border: 2px solid #000 !important; }
+
+/* Section titles */
+html[data-device="feature"] .section-title { background: #000 !important; color: #FFF; padding: 5px 8px; border: none !important; margin: 5px 0 3px 0; text-shadow: none; }
+
+/* Content views padding */
+html[data-device="feature"] #settings, html[data-device="feature"] #persona-mgr,
+html[data-device="feature"] #create-char, html[data-device="feature"] #admin,
+html[data-device="feature"] #home, html[data-device="feature"] #browse { padding: 8px; }
+
+/* Messenger stacked */
+html[data-device="feature"] #messenger-box { -webkit-flex-direction: column; flex-direction: column; }
+html[data-device="feature"] #contact-list { width: 100%; min-width: 100%; background: #EEE !important; border-right: none; border-bottom: 3px solid #000; max-height: 38%; overflow-y: auto; }
+html[data-device="feature"] .contact-header { background: #000 !important; color: #FFF; padding: 5px 8px; }
+html[data-device="feature"] .contact-row { padding: 9px 8px; border-bottom: 1px solid #999; background: #FFF; }
+html[data-device="feature"] .contact-row.active { background: #000 !important; color: #FFF; }
+html[data-device="feature"] .contact-name { color: inherit; }
+html[data-device="feature"] #chat-main { border-top: 3px solid #000; }
+html[data-device="feature"] #chat-header { background: #DDD !important; border-bottom: 3px solid #000; padding: 6px 8px; }
+html[data-device="feature"] #chat-header .char-title { color: #000 !important; }
+html[data-device="feature"] #chat-history { background: #FFF; padding: 5px; }
+html[data-device="feature"] .msg-bubble { border: 1px solid #000 !important; background: #F5F5F5 !important; padding: 5px !important; }
+html[data-device="feature"] .msg-bubble.user-bubble { background: #DDD !important; }
+html[data-device="feature"] .user-label, html[data-device="feature"] .ai-label { color: #000 !important; }
+html[data-device="feature"] .action-text { font-style: italic; color: #444 !important; }
+html[data-device="feature"] #msg-input-area { background: #EEE !important; border-top: 3px solid #000; padding: 6px; }
+html[data-device="feature"] #chat-input { border: 2px solid #000 !important; outline: none !important; padding: 5px !important; background: #FFF; }
+html[data-device="feature"] .input-btns { -webkit-flex-direction: column; flex-direction: column; }
+
+/* User Chat stacked */
+html[data-device="feature"] #user-chat { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="feature"] #user-chat > div { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="feature"] #uc-sidebar { width: 100% !important; min-width: 100% !important; max-height: 36%; border-right: none; border-bottom: 3px solid #000; background: #EEE !important; overflow-y: auto; }
+
+/* Group Chat stacked */
+html[data-device="feature"] .gc-subtab { background: #DDD !important; color: #000 !important; border: 1px solid #999 !important; padding: 7px 9px !important; }
+html[data-device="feature"] .gc-subtab.active { background: #000 !important; color: #FFF !important; border-bottom: 3px solid #000 !important; }
+html[data-device="feature"] .msg-subtab { background: #DDD !important; color: #000 !important; border: 1px solid #999 !important; padding: 7px 9px !important; font-family: "Courier New", Courier, monospace !important; }
+html[data-device="feature"] .msg-subtab.active { background: #000 !important; color: #FFF !important; border-bottom: 3px solid #000 !important; }
+html[data-device="feature"] #group-chat .gc-panel[data-panel="bots"],
+html[data-device="feature"] #group-chat .gc-panel[data-panel="mixed"] { -webkit-flex-direction: column !important; flex-direction: column !important; }
+html[data-device="feature"] #group-chat .gc-panel > div:first-child { width: 100% !important; min-width: 100% !important; max-height: 180px; border-right: none !important; border-bottom: 3px solid #000; overflow-y: auto; }
+html[data-device="feature"] #group-chat .gc-panel[data-panel="users"] { -webkit-flex-direction: column !important; flex-direction: column !important; }
+
+/* Cards */
+html[data-device="feature"] .char-card { width: 100% !important; border: 2px solid #000 !important; background: #F5F5F5 !important; margin-bottom: 5px; padding: 7px; }
+html[data-device="feature"] .char-card:hover { background: #DDD !important; }
+html[data-device="feature"] .char-grid { display: block; }
+html[data-device="feature"] .pub-char-card { border: 2px solid #000 !important; background: #F5F5F5 !important; padding: 7px; margin-bottom: 5px; display: block; }
+html[data-device="feature"] .privacy-badge, html[data-device="feature"] .visitor-badge,
+html[data-device="feature"] .badge-public,  html[data-device="feature"] .badge-private { border: 1px solid #000 !important; background: #DDD !important; color: #000 !important; }
+
+/* Login */
+html[data-device="feature"] #login-screen { background: #333; padding: 14px 8px; -webkit-align-items: flex-start; align-items: flex-start; }
+html[data-device="feature"] .login-window { width: 100%; max-width: 320px; border: 3px solid #000 !important; outline: none !important; }
+html[data-device="feature"] .login-titlebar { background: #000 !important; padding: 6px; }
+html[data-device="feature"] .win-btn { display: none; }
+html[data-device="feature"] .login-logo-area { background: #000 !important; border: none !important; }
+html[data-device="feature"] .login-logo-area h1 { color: #FFF; }
+html[data-device="feature"] .tab-bar { border-bottom: 2px solid #000; }
+html[data-device="feature"] .tab { background: #DDD; color: #000; border: 1px solid #000 !important; }
+html[data-device="feature"] .tab.active { background: #FFF; }
+
+/* Modal */
+html[data-device="feature"] .win-box { width: 96% !important; border: 3px solid #000 !important; outline: none !important; }
+html[data-device="feature"] .win-title { background: #000 !important; }
+html[data-device="feature"] .win-body { padding: 8px; }
+
+/* Status bar */
+html[data-device="feature"] #status-bar { background: #DDD !important; border-top: 2px solid #000; color: #000 !important; }
+html[data-device="feature"] #ai-status { color: #000 !important; }
+html[data-device="feature"] .info-bar { background: #EEE !important; border: 2px solid #000 !important; color: #000 !important; }
+
+/* Scrollbar */
+html[data-device="feature"] ::-webkit-scrollbar { width: 5px; }
+html[data-device="feature"] ::-webkit-scrollbar-track { background: #DDD; }
+html[data-device="feature"] ::-webkit-scrollbar-thumb { background: #888; }
+html[data-device="feature"] ::-webkit-scrollbar-button { display: none; height: 0; }
+
+/* Profile */
+html[data-device="feature"] .profile-header { background: #EEE !important; border: 2px solid #000 !important; -webkit-flex-direction: column; flex-direction: column; }
+html[data-device="feature"] .stat-box { border: 2px solid #000 !important; background: #FFF !important; }
+html[data-device="feature"] .stat-num { color: #000 !important; }
+html[data-device="feature"] .user-row { border-bottom: 1px solid #999; background: #FFF; }
+html[data-device="feature"] .user-row:hover { background: #DDD !important; }
+html[data-device="feature"] .persona-card { border: 2px solid #000 !important; background: #F5F5F5 !important; -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+html[data-device="feature"] .empty-state { border: 2px solid #000 !important; background: #F5F5F5 !important; color: #000 !important; }
+html[data-device="feature"] .log-entry { border: 2px solid #000 !important; background: #F5F5F5 !important; }
+html[data-device="feature"] .log-ver { color: #000 !important; }
